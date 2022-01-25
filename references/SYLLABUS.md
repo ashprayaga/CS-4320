@@ -11,7 +11,8 @@ _The syllabus and the course schedule will evolve based on student progress. We 
  - **Prerequisite Courses CS2050, CS3380**
 
 ## Student Hours:
-- Wenyi Lu: TBD
+- Roland Oruche: TBD
+- Maruf Hossain Shuvo: TBD
 - Dr. Goggins: TBD
 
 ## Topics
