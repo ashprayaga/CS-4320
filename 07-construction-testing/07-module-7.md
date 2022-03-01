@@ -22,4 +22,4 @@ When It comes to installing Python, many students experience conflicts and issue
 2. `brew install python@3.7`
 
 ### Windows
-1. I am in the process of getting a Windows computer from our department so I can advise you better on this. Meanwhile, please share what you know with others. 
+1. Use the discord channel if you have difficulty.

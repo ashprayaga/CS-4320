@@ -8,4 +8,4 @@ Please consult [assignments](../references/assignments.md) for due dates.
  - [Design Lectures + Augur Troubleshooting](https://vimeo.com/516648654)
  - [Detailed Augur Troubleshooting](https://vimeo.com/517860151)
 
-**PLEASE MONITOR THE SLACK CHANNELS** 
+**PLEASE MONITOR THE Discord CHANNELS** 
