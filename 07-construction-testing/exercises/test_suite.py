@@ -1,8 +1,8 @@
 from os import system
 import pytest
+import datetime
 from Professor import Professor
 import System
-import json
 
 
 '''
@@ -19,9 +19,11 @@ def grading_system():
     gradingSystem.load_data()
     return gradingSystem
 
-@pytest.fixture
-def grader(grading_system):
-    grading_system.login('goggins', 'augurrox')
+#reset json file after each test
+@pytest.fixture(autouse=True)
+def json_cleanup():
+    exec(open('RestoreData.py').read())
+
 
 #1. Tests if user can login properly
 def test_login(grading_system: System.System):
@@ -105,6 +107,7 @@ def test_view_assignments(grading_system: System.System):
 # Custom Tests
 
 #11 Verify ontime is correct after submitting assignment
+#   will always fail now since check_ontime is broken, but the logic in submit_assignment is not right either
 def test_submit_assignment_ontime(grading_system: System.System):
     grading_system.login('akend3', '123454321')
     grading_system.usr.submit_assignment('databases', 'assignment1', 'test test test', '12/31/99')
@@ -121,3 +124,27 @@ def test_drop_other_student(grading_system: System.System):
     data = grading_system.load_user_db()
     assert 'cloud_computing' in data['hdjsr7']['courses']
 
+#13 Verify that the submit assignment date works with the datetime type
+def test_date_formats(grading_system: System.System):
+    grading_system.login('akend3', '123454321')
+    grading_system.usr.submit_assignment('databases', 'assignment1', 'test test test', datetime.datetime(2022, 3, 19))
+    data = grading_system.load_user_db()
+    assert data['akend3']['courses']['databases']['assignment1']['submission_date'] == '3/19/22' #should store date as string in json
+
+#14 Verify that an incorrect login will return false and a correct login will return true
+#   Exception handling should also be present to handle failures when needed
+def test_bad_logins(grading_system: System.System):
+    is_logged_in = grading_system.login('akend3', '') # BAD password only
+    assert is_logged_in == False
+    is_logged_in = grading_system.login('akend3', '123454321') # GOOD login
+    assert is_logged_in == True
+    is_logged_in = grading_system.login('', '') # BAD login
+    assert is_logged_in == False
+
+#15 Verify correct exception handling when checking grades for a student that is not in the specified course
+def test_staff_check_grades(grading_system: System.System):
+    grading_system.login('goggins', 'augurrox') 
+    # following line should handle exceptions properly for incorrect student
+    grades = grading_system.usr.check_grades('akend3', 'software_engineering')
+    # grades should be null if the student is not in the course
+    assert grades is None
